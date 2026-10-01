@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amrabera Branch Post Office (723127) – Small Savings Interest Calculator</title>
+<meta name="description" content="Interest calculator for Post Office SB, RD, TD and SSA – Amrabera Branch Post Office, West Bengal.">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <svg class="logo" viewBox="0 0 64 64" role="img" aria-label="Postal envelope and postmark icon">
+    <rect x="6" y="14" width="52" height="36" rx="4" fill="#fff"/>
+    <path d="M6 18l26 20 26-20" fill="none" stroke="#b71c1c" stroke-width="3"/>
+    <circle cx="48" cy="44" r="10" fill="none" stroke="#b71c1c" stroke-width="2" stroke-dasharray="4 2"/>
+  </svg>
+  <div>
+    <h1>AMRABERA BRANCH POST OFFICE</h1>
+    <p class="pin">PIN – 723127</p>
+    <p class="sub">Small Savings Interest Calculator<br><span lang="bn">ক্ষুদ্র সঞ্চয় সুদ ক্যালকুলেটর</span></p>
+  </div>
+</header>
+
+<main>
+  <div class="rate-note" id="rateEffective"></div>
+
+  <nav class="tabs" role="tablist" aria-label="Calculators">
+    <button role="tab" aria-selected="true"  aria-controls="p-sb"  id="t-sb"  data-tab="sb">SB<small>সঞ্চয়</small></button>
+    <button role="tab" aria-selected="false" aria-controls="p-rd"  id="t-rd"  data-tab="rd">RD<small>রেকারিং</small></button>
+    <button role="tab" aria-selected="false" aria-controls="p-td"  id="t-td"  data-tab="td">TD<small>মেয়াদী</small></button>
+    <button role="tab" aria-selected="false" aria-controls="p-ssa" id="t-ssa" data-tab="ssa">SSA<small>সুকন্যা</small></button>
+  </nav>
+
+  <!-- SB -->
+  <section class="card panel" id="p-sb" role="tabpanel" aria-labelledby="t-sb">
+    <h2>SB – Savings Account</h2>
+    <form data-calc="sb" novalidate>
+      <label>Principal / Deposit Amount (₹)<input type="number" inputmode="decimal" name="amount" min="0" placeholder="e.g. 50000"></label>
+      <label>Period (months)<input type="number" inputmode="numeric" name="months" min="1" value="12"></label>
+      <div class="btns"><button class="btn primary">Calculate</button></div>
+    </form>
+    <p class="err" role="alert"></p>
+    <div class="out" aria-live="polite"></div>
+    <p class="note">Interest rates are subject to change as per Government of India / Department of Posts notifications.</p>
+  </section>
+
+  <!-- RD -->
+  <section class="card panel" id="p-rd" role="tabpanel" aria-labelledby="t-rd" hidden>
+    <h2>RD – Recurring Deposit</h2>
+    <form data-calc="rd" novalidate>
+      <label>Monthly Deposit (₹)<input type="number" inputmode="decimal" name="amount" min="0" placeholder="e.g. 1000"></label>
+      <label>Period<input type="text" id="rdPeriod" readonly></label>
+      <div class="btns"><button class="btn primary">Calculate</button></div>
+    </form>
+    <p class="err" role="alert"></p>
+    <div class="out" aria-live="polite"></div>
+    <p class="note">RD interest is compounded quarterly; each monthly instalment earns interest only for the months it stays deposited. It is not simple interest.</p>
+  </section>
+
+  <!-- TD -->
+  <section class="card panel" id="p-td" role="tabpanel" aria-labelledby="t-td" hidden>
+    <h2>TD – Time Deposit</h2>
+    <form data-calc="td" novalidate>
+      <label>Deposit Amount (₹)<input type="number" inputmode="decimal" name="amount" min="0" placeholder="e.g. 100000"></label>
+      <label>Term<select name="years">
+        <option value="1">1 Year</option><option value="2">2 Years</option>
+        <option value="3">3 Years</option><option value="5" selected>5 Years</option></select></label>
+      <label class="check"><input type="checkbox" name="sbint" checked> Include SB interest on TD interest?</label>
+      <div class="btns"><button class="btn primary">Calculate</button></div>
+    </form>
+    <p class="err" role="alert"></p>
+    <div class="out" aria-live="polite"></div>
+    <div class="info">TD interest is payable annually. The annual TD interest can be credited to the linked Savings Account. If that amount remains in SB, it may earn SB interest according to the applicable rules.</div>
+  </section>
+
+  <!-- SSA -->
+  <section class="card panel" id="p-ssa" role="tabpanel" aria-labelledby="t-ssa" hidden>
+    <h2>SSA – Sukanya Samriddhi Account</h2>
+    <form data-calc="ssa" novalidate>
+      <label>Annual Deposit (₹)<input type="number" inputmode="decimal" name="amount" min="0" placeholder="e.g. 50000"></label>
+      <label>Deposit period (years)<input type="number" inputmode="numeric" name="depYears" min="1" value="15"></label>
+      <label>Girl's age at opening (years)<input type="number" inputmode="numeric" name="age" min="0" value="0"></label>
+      <div class="btns"><button class="btn primary">Calculate</button></div>
+    </form>
+    <p class="err" role="alert"></p>
+    <div class="out" aria-live="polite"></div>
+    <div class="info" id="ssaRules"></div>
+  </section>
+
+  <section class="card">
+    <h2>Current Interest Rates</h2>
+    <div class="rates" id="rateCards"></div>
+    <p class="note">Rates shown are indicative and should be verified with the latest official Department of Posts notification.</p>
+  </section>
+
+  <section class="card">
+    <h2>Compare Small Savings Schemes</h2>
+    <form data-calc="cmp" novalidate>
+      <label>Investment amount (₹)<input type="number" inputmode="decimal" name="amount" min="0" placeholder="e.g. 10000"></label>
+      <div class="btns"><button class="btn primary">Compare</button></div>
+    </form>
+    <p class="err" role="alert"></p>
+    <div class="out" aria-live="polite"></div>
+  </section>
+
+  <section class="card po">
+    <h2>AMRABERA BRANCH POST OFFICE<br><small>PIN – 723127</small></h2>
+    <div class="svc">
+      <div>Savings Account</div><div>Recurring Deposit</div><div>Time Deposit</div>
+      <div>Sukanya Samriddhi Account</div><div>PLI / RPLI</div><div>Other Post Office Services</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>This calculator is for estimation and public information only. Actual interest, maturity value and eligibility are subject to the latest Government of India / Department of Posts rules and notifications.</p>
+</footer>
+
+<script src="./script.js"></script>
+</body>
+</html>
